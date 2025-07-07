@@ -1,0 +1,11 @@
+SELECT user_id, COUNT(*) AS total_bookings
+FROM bookings
+GROUP BY user_id;
+SELECT
+  properties.id AS property_id,
+  properties.name,
+  COUNT(bookings.id) AS total_bookings,
+  RANK() OVER (ORDER BY COUNT(bookings.id) DESC) AS booking_rank
+FROM properties
+LEFT JOIN bookings ON properties.id = bookings.property_id
+GROUP BY properties.id, properties.name;
